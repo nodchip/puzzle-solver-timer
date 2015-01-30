@@ -155,6 +155,11 @@ public class MainActivity extends Activity {
             mTimerTipsUpdater = null;
         }
 
+        if (mTimerVibration != null) {
+            mTimerVibration.cancel();
+            mTimerVibration = null;
+        }
+
         super.onDestroy();
     }
 
