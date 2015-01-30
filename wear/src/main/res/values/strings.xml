@@ -4,5 +4,10 @@
     <string name="app_name">PuzzleSolverTimer</string>
     <string name="hello_round">Hello Round World!</string>
     <string name="hello_square">Hello Square World!</string>
-
+    <string-array name="spinner_vibration">
+        <item>なし</item>
+        <item>１分毎</item>
+        <item>３分毎</item>
+        <item>５分毎</item>
+    </string-array>
 </resources>

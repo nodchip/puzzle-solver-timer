@@ -3,6 +3,7 @@
     package="kishibe.dyndns.tv.puzzlesolvertimer">
 
     <uses-feature android:name="android.hardware.type.watch" />
+    <uses-permission android:name="android.permission.VIBRATE"></uses-permission>
 
     <application
         android:allowBackup="true"
