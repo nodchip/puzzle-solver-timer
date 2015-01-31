@@ -1,8 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">PuzzleSolverTimer</string>
-    <string name="hello_world">Hello world!</string>
-    <string name="action_settings">Settings</string>
+    <string name="app_name">謎解きタイマー</string>
+    <string name="hello_round">Hello Round World!</string>
+    <string name="hello_square">Hello Square World!</string>
+    <string-array name="spinner_vibration">
+        <item>なし</item>
+        <item>１分毎</item>
+        <item>３分毎</item>
+        <item>５分毎</item>
+    </string-array>
 
 </resources>

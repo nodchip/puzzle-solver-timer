@@ -3,9 +3,12 @@ package kishibe.dyndns.tv.puzzlesolvertimer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.os.Vibrator;
 import android.support.v7.app.ActionBarActivity;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import java.util.Random;
@@ -49,7 +52,9 @@ public class MainActivity extends ActionBarActivity {
             "初めから書かれていた文字を消しゴムやイレーサーで消してみましょう",
             "「指し示す」 → 矢印は描かれていませんか？矢印を描くことはできますか？",
             "選択肢が少ないなら全通り試してみましょう",
+            "ドアや額縁の上を手でなぞってみましょう。見落としがあるかもしれません。",
     };
+
     private final Random random = new Random();
     private final Handler mHandlerUpdateTimer = new Handler() {
         @Override
@@ -72,6 +77,10 @@ public class MainActivity extends ActionBarActivity {
     private long mEndTimeMs;
     private Timer mTimerTimerTicker;
     private Timer mTimerTipsUpdater;
+
+    private Spinner mSpinnerVibration;
+    private Vibrator mVibrator;
+    private Timer mTimerVibration;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -109,8 +118,21 @@ public class MainActivity extends ActionBarActivity {
 
         mEndTimeMs = System.currentTimeMillis() + 60 * 60 * 1000;
         updateTimer();
-    }
 
+        // バイブレーション
+        mSpinnerVibration = (Spinner) findViewById(R.id.spinnerVibration);
+        mVibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+        mSpinnerVibration.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                onSpinnerVibrationSelected(position);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+    }
 
     @Override
     protected void onDestroy() {
@@ -124,6 +146,11 @@ public class MainActivity extends ActionBarActivity {
         if (mTimerTipsUpdater != null) {
             mTimerTipsUpdater.cancel();
             mTimerTipsUpdater = null;
+        }
+
+        if (mTimerVibration != null) {
+            mTimerVibration.cancel();
+            mTimerVibration = null;
         }
 
         super.onDestroy();
@@ -178,5 +205,39 @@ public class MainActivity extends ActionBarActivity {
 
         String tips = TIPS[random.nextInt(TIPS.length)];
         mTextViewTips.setText(tips);
+    }
+
+    private synchronized void updateVibration() {
+        mVibrator.vibrate(200);
+    }
+
+    private void onSpinnerVibrationSelected(int position) {
+        if (mTimerVibration != null) {
+            mTimerVibration.cancel();
+            mTimerVibration = null;
+        }
+
+        long timeMs;
+        switch (position) {
+            case 1:
+                timeMs = 1 * 60 * 1000;
+                break;
+            case 2:
+                timeMs = 3 * 60 * 1000;
+                break;
+            case 3:
+                timeMs = 5 * 60 * 1000;
+                break;
+            default:
+                return;
+        }
+
+        mTimerVibration = new Timer();
+        mTimerVibration.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                updateVibration();
+            }
+        }, timeMs, timeMs);
     }
 }

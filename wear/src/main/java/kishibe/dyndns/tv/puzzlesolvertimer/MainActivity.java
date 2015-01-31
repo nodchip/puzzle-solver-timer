@@ -52,6 +52,7 @@ public class MainActivity extends Activity {
             "初めから書かれていた文字を消しゴムやイレーサーで消してみましょう",
             "「指し示す」 → 矢印は描かれていませんか？矢印を描くことはできますか？",
             "選択肢が少ないなら全通り試してみましょう",
+            "ドアや額縁の上を手でなぞってみましょう。見落としがあるかもしれません。",
     };
 
     private final Random random = new Random();
